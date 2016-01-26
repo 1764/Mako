@@ -20,7 +20,7 @@ public class CameraStream extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	server = CameraServer.getInstance();
-    	server.setQuality(40);
+    	server.setQuality(75);
     }
 
     // Called repeatedly when this Command is scheduled to run

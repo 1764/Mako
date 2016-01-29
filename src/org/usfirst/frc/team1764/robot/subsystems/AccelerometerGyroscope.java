@@ -36,8 +36,8 @@ public class AccelerometerGyroscope extends Subsystem {
     }
     
     public double getAngle() {
-    	return compFilter();
-//    	return gyro.getRate();
+    	//return compFilter();
+    	return gyro.getAngle();
     }
     
     public double compFilter()
@@ -49,7 +49,7 @@ public class AccelerometerGyroscope extends Subsystem {
     	
     	return integAngle;
     }
-    
+    //knock knock, leadscrew
     public void resetGyro() {
     	gyro.reset();
     }

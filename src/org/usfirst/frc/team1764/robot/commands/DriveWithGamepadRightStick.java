@@ -23,7 +23,7 @@ public class DriveWithGamepadRightStick extends Command {
     protected void execute() {
     	double a = 0.5;
     	double x = Robot.oi.getPilotAxis(Robot.oi.LOGITECH_F510_AXIS_RIGHT_STICK_X);
-    	double y = Robot.oi.getPilotAxis(Robot.oi.LOGITECH_F510_AXIS_RIGHT_STICK_Y);
+    	double y = Robot.oi.getPilotAxis(Robot.oi.LOGITECH_F510_AXIS_LEFT_STICK_Y);
     	x = 0.5*((a * Math.pow(x, 3)) + ((1-a) * x));
     	y = a * Math.pow(y, 3) + (1-a) * y;
     	double left =  y + x;

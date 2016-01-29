@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 	
 	Talon leftMotor, rightMotor;
+	int dir = 1;
 	
 	public DriveTrain() {
 		super();
@@ -18,16 +19,28 @@ public class DriveTrain extends Subsystem {
 		rightMotor = new Talon(RobotMap.rightMotorPort);
 	}
 	
+	public void reverse() {
+		dir = -dir;
+	}
+	
 	//Setter for left motor speed
 	public void setLeft(double speed)
 	{
-		leftMotor.set(speed);
+		if(dir > 0) {
+			leftMotor.set(speed * (dir));
+		} else {
+			rightMotor.set(-(speed * dir));
+		}
 	}
 	
 	//Setter for right motor speed
 	public void setRight(double speed)
 	{
-		rightMotor.set(-speed);
+		if(dir > 0) {
+			rightMotor.set(speed * (-dir));
+		} else {
+			leftMotor.set(-(speed* (-dir)));
+		}
 	}
 	
 	@Override

@@ -68,7 +68,7 @@ public class DriveWithExponentialJoystick extends Command {
 		Robot.chassis.setLeft(0);
 		Robot.chassis.setRight(0);
 	}
-	
+
 	@Override
 	protected void interrupted() {
 		Robot.chassis.setLeft(0);

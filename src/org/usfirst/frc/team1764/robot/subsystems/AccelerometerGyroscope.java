@@ -36,9 +36,20 @@ public class AccelerometerGyroscope extends Subsystem {
     }
     
     public double getAngle() {
+    	//return compFilter();
     	return gyro.getAngle();
     }
     
+    public double compFilter()
+    {
+    	double integAngle = gyro.getAngle();
+       	double turnAccel = Math.atan2(getX(), getY()) * 180/Math.PI;
+    	
+    	integAngle = integAngle * 0.98 + turnAccel * 0.02;
+    	
+    	return integAngle;
+    }
+    //knock knock, leadscrew
     public void resetGyro() {
     	gyro.reset();
     }

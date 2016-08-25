@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 */
 
 public class DriveWithExponentialJoystick extends Command {
-	
+	boolean lastReverse = false;
 	
 	public DriveWithExponentialJoystick()
 	{
@@ -31,19 +31,18 @@ public class DriveWithExponentialJoystick extends Command {
 		double joyZ = Robot.oi.getPilotAxis(Robot.oi.LOGITECH_EXTREME3D_AXIS_Z);
 		double a = 0.5;
 		
-		;;;;;;;  ;;;;;;;  ;;;;;;;  ;;   ;;  ;;;;;;;    ;;; ;;;  ;;;;;;;
-		;;;        ;;;    ;;   ;;  ;;   ;;    ;;;      ;; ; ;;  ;;
-		;;;;;;;    ;;;    ;;       ;;;;;;;    ;;;      ;; ; ;;  ;;;;;;;
-		;;;        ;;;    ;;  ;;;  ;;;;;;;    ;;;      ;;   ;;  ;;;;;;;
-		;;;        ;;;    ;;   ;;  ;;   ;;    ;;;      ;;   ;;  ;;
-		;;;      ;;;;;;;  ;;;;;;;  ;;   ;;    ;;;      ;;   ;;  ;;;;;;;
-		
-		//Make joysticks exponential...
+		// Apply curves 
 		joyZ = curverooni(joyZ, a);
 		joyY = curverooni(joyY, a);
-		joyZ = joyZ*((-0.3 * Math.abs(joyY)) + 1);
-		//Limit twist to 0.5
-		joyZ *= 0.5;
+		
+		if(lastReverse == false && Robot.oi.getPilotButton(5)) {
+			Robot.chassis.reverse();
+		}
+		
+		// Make turn speed decrease proportional to the forward speed to prevent
+		// The robot from spinning out
+		// joyZ = joyZ*((-0.3 * Math.abs(joyY)) + 1);
+	
 		
 		//Create and set values for speed of motors
 		double left = (joyY) + joyZ;
@@ -52,6 +51,7 @@ public class DriveWithExponentialJoystick extends Command {
 		// Apply values to motors
 		Robot.chassis.setLeft(left);
 		Robot.chassis.setRight(right);
+		lastReverse = Robot.oi.getPilotButton(5);
 	}
 
 	private double curverooni(double joy, double a) {
@@ -60,20 +60,17 @@ public class DriveWithExponentialJoystick extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		//Lasts the entire teleop mode
 		return false;
 	}
 
 	@Override
 	protected void end() {
-		//Stop motors if for some reason it finishes
 		Robot.chassis.setLeft(0);
 		Robot.chassis.setRight(0);
 	}
 
 	@Override
 	protected void interrupted() {
-		//Stop motors if for some reason it is interrupted
 		Robot.chassis.setLeft(0);
 		Robot.chassis.setRight(0);
 	}
